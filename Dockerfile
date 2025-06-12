@@ -9,13 +9,13 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
  
 # Download GitHub zip (you can rename it while downloading)
-ADD https://html5up.net/paradigm-shift/download /var/www/html/html5up-paradigm-shift.zip
+ADD https://codeload.github.com/themewagon/iPortfolio/zip/refs/tags/v1.0.0 /var/www/html/iPortfolio.zip
  
 WORKDIR /var/www/html
  
-RUN unzip html5up-paradigm-shift.zip && \
-    cp -rvf html5up-paradigm-shift.zip /* . && \
-    rm -rf html5up-paradigm-shift.zip  html5up-paradigm-shift
+RUN unzip iPortfolio.zip && \
+    cp -rvf iPortfolio-1.0.0/* . && \
+    rm -rf iPortfolio.zip iPortfolio-1.0.0
  
 EXPOSE 80
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
