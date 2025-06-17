@@ -3,19 +3,24 @@ MAINTAINER harsh@amarinfotech.com
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install required packages
+# Install Apache and utilities
 RUN apt update && \
     apt install -y tzdata apache2 zip unzip curl && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Download and unzip Ethereal template
+# Download the Massively theme ZIP file (named massively-master.zip)
+ADD https://codeload.github.com/html5up-nsm-templates/massively/zip/refs/heads/master /var/www/html/massively-master.zip
+
 WORKDIR /var/www/html
 
-RUN curl -L https://codeload.github.com/html5up-nsm-templates/ethereal/zip/refs/heads/master -o ethereal-master.zip && \
-    unzip ethereal-master.zip && \
-    cp -rvf ethereal-master/* . && \
-    rm -rf ethereal-master.zip ethereal-master
+# Unzip and copy content from massively-master folder
+RUN unzip massively-master.zip && \
+    cp -rvf massively-master/* . && \
+    rm -rf massively-master.zip massively-master
 
+# Expose port 80
 EXPOSE 80
+
+# Start Apache
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
