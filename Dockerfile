@@ -1,21 +1,21 @@
 FROM ubuntu:20.04
 MAINTAINER harsh@amarinfotech.com
- 
+
 ENV DEBIAN_FRONTEND=noninteractive
- 
+
+# Install required packages
 RUN apt update && \
-    apt install -y tzdata apache2 zip unzip && \
+    apt install -y tzdata apache2 zip unzip curl && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
- 
-# Download GitHub zip (you can rename it while downloading)
-ADD https://codeload.github.com/themewagon/iPortfolio/zip/refs/tags/v1.0.0 /var/www/html/iPortfolio.zip
- 
+
+# Download and unzip Ethereal template
 WORKDIR /var/www/html
- 
-RUN unzip iPortfolio.zip && \
-    cp -rvf iPortfolio-1.0.0/* . && \
-    rm -rf iPortfolio.zip iPortfolio-1.0.0
- 
+
+RUN curl -L https://codeload.github.com/html5up-nsm-templates/ethereal/zip/refs/heads/master -o ethereal-master.zip && \
+    unzip ethereal-master.zip && \
+    cp -rvf ethereal-master/* . && \
+    rm -rf ethereal-master.zip ethereal-master
+
 EXPOSE 80
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
