@@ -1,26 +1,21 @@
 FROM ubuntu:20.04
 MAINTAINER harsh@amarinfotech.com
-
+ 
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Install Apache and utilities
+ 
 RUN apt update && \
-    apt install -y tzdata apache2 zip unzip curl && \
+    apt install -y tzdata apache2 zip unzip && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Download the Massively theme ZIP file (named massively-master.zip)
-ADD https://codeload.github.com/html5up-nsm-templates/massively/zip/refs/heads/master /var/www/html/massively-master.zip
-
+ 
+# Download GitHub zip (you can rename it while downloading)
+ADD https://codeload.github.com/themewagon/iPortfolio/zip/refs/tags/v1.0.0 /var/www/html/iPortfolio.zip
+ 
 WORKDIR /var/www/html
-
-# Unzip and copy content from massively-master folder
-RUN unzip massively-master.zip && \
-    cp -rvf massively-master/* . && \
-    rm -rf massively-master.zip massively-master
-
-# Expose port 80
+ 
+RUN unzip iPortfolio.zip && \
+    cp -rvf iPortfolio-1.0.0/* . && \
+    rm -rf iPortfolio.zip iPortfolio-1.0.0
+ 
 EXPOSE 80
-
-# Start Apache
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
