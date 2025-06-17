@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 # Unzip and copy content from massively-master folder
 RUN unzip massively-master.zip && \
     cp -rvf massively-master/* . && \
-    rm -rf massively-master massively-master.zip
+    rm -rf massively-master.zip massively-master
 
 # Expose port 80
 EXPOSE 80
